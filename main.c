@@ -47,19 +47,22 @@
 #define GB (1024 * 1024 * 1024)
 
 void perform_io(const char *device, size_t io_size, size_t stride, int is_read, int is_random) {
+    // Open the device file with direct I/O access. Use read-only or write-only mode based on 'is_read'.
     int fd = open(device, O_DIRECT | (is_read ? O_RDONLY : O_WRONLY));
     if (fd < 0) {
         perror("Error opening device");
         exit(EXIT_FAILURE);
     }
 
-    // Allocate aligned memory for I/O operations
+    // Allocate aligned memory for I/O operations; alignment = 4kB
     void *buffer;
     if (posix_memalign(&buffer, KB4, io_size)) {
         perror("Error allocating aligned memory");
         close(fd);
         exit(EXIT_FAILURE);
     }
+
+    // Initialize the buffer: fill with 0 for read, 1 for write.
     memset(buffer, is_read ? 0 : 1, io_size);
 
     size_t total_written = 0;
@@ -70,7 +73,7 @@ void perform_io(const char *device, size_t io_size, size_t stride, int is_read, 
     while (total_written < GB) {
         if (is_random) {
             // Random offset for random I/O
-            off_t offset = ((off_t)rand() % (GB / io_size)) * io_size;
+            off_t offset = ((off_t) rand() % (GB / io_size)) * io_size;
             lseek(fd, offset, SEEK_SET);
         }
 
@@ -118,8 +121,8 @@ void print_usage() {
     printf("  -t <stride>       Stride size in bytes between I/O operations\n");
     printf("  -o <operation>    I/O operation type: read or write\n");
     printf("  -p <pattern>      I/O pattern: sequential or random\n");
-    printf("  -h                Display this help and exit\n\n");
-    printf("Example: ./iobench -d /dev/sda -s 4096 -t 0 -o write -p sequential\n");
+    printf("  -h                Display this help message\n\n");
+    printf("Example:\n  ./iobench -d /dev/sda -s 4096 -t 0 -o write -p sequential\n");
 }
 
 int main(int argc, char **argv) {
