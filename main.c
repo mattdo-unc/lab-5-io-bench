@@ -44,7 +44,7 @@
 #include <sys/time.h>
 
 #define KB4 (4 * 1024)
-#define GB (16 * 1024 * 1024)
+#define GB (1024 * 1024 * 1024)
 
 void perform_io(const char *device, size_t io_size, size_t stride, int is_read, int is_random) {
     // Open the device file with direct I/O access. Use read-only or write-only mode based on 'is_read'.
