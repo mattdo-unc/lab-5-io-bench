@@ -44,7 +44,7 @@
 #include <sys/time.h>
 
 #define KB4 (4 * 1024)
-#define GB (1024 * 1024 * 1024)
+#define GB (16 * 1024 * 1024)
 
 void perform_io(const char *device, size_t io_size, size_t stride, int is_read, int is_random) {
     // Open the device file with direct I/O access. Use read-only or write-only mode based on 'is_read'.
@@ -107,7 +107,7 @@ void perform_io(const char *device, size_t io_size, size_t stride, int is_read, 
     gettimeofday(&end, NULL);
 
     double elapsed = (end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0);
-    printf("Operation took %.3f seconds. Throughput: %.3f GB/s\n", elapsed, 1 / elapsed);
+    printf("%.5f, %.5f\n", elapsed, 1 / elapsed);
 
     free(buffer);
     close(fd);

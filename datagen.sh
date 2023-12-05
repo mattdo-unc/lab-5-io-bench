@@ -63,7 +63,7 @@ run_benchmark() {
 }
 
 # Initialize the output file with headers
-echo "Device, IO_Size, Stride, Operation, Pattern, Run, Result" > $output_file
+echo "Device, IO_Size, Stride, Operation, Pattern, Time (s), Throughput (GB/s)" > $output_file
 # Main loop for all combinations
 for device in "${devices[@]}"; do
     for operation in "${operations[@]}"; do
