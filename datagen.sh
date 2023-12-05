@@ -3,8 +3,11 @@
 # Define the range of I/O sizes, strides, and granularities
 
 # Stride Sizes in bytes: 4KB to 100MB
-strides=(
+io_sizes=(
     "4096"        # 4KB
+    "8192"        # 8KB
+    "16384"       # 16KB
+    "32768"       # 32KB
     "65536"       # 64KB
     "131072"      # 128KB
     "262144"      # 256KB
@@ -13,22 +16,19 @@ strides=(
     "2097152"     # 2MB
     "4194304"     # 4MB
     "8388608"     # 8MB
+    "12582912"    # 12MB
     "16777216"    # 16MB
     "25165824"    # 24MB
     "33554432"    # 32MB
-    "50331648"    # 48MB
-    "67108864"    # 64MB
-    "85983232"    # 82MB
-    "104857600"   # 100MB
 )
 
 # Stride Sizes in bytes: 4KB to 100MB
 strides=(
     "4096"        # 4KB
+    "16384"       # 16KB
     "65536"       # 64KB
     "1048576"     # 1MB
     "16777216"    # 16MB
-    "104857600"   # 100MB
 )
 
 operations=("read" "write")
