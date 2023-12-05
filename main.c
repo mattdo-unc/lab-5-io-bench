@@ -48,7 +48,7 @@
 
 void perform_io(const char *device, size_t io_size, size_t stride, int is_read, int is_random) {
     // Open the device file with direct I/O access.
-    int fd = open(device, O_SYNC | O_DIRECT | O_LARGEFILE | O_RDWR);
+    int fd = open(device, O_SYNC | O_DIRECT | O_LARGEFILE | (is_read ? O_RDONLY : O_WRONLY));
     if (fd < 0) {
         perror("Error opening device");
         exit(EXIT_FAILURE);
@@ -107,7 +107,7 @@ void perform_io(const char *device, size_t io_size, size_t stride, int is_read, 
     gettimeofday(&end, NULL);
 
     double elapsed = (end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0);
-    printf("%.5f, %.5f\n", elapsed, 1 / elapsed);
+    printf("%.10f, %.10f\n", elapsed, 1 / elapsed);
 
     free(buffer);
     close(fd);
