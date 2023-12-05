@@ -2,12 +2,9 @@
 
 # Define the range of I/O sizes, strides, and granularities
 
-# I/O Sizes in bytes: 4KB to 100MB
-io_sizes=(
+# Stride Sizes in bytes: 4KB to 100MB
+strides=(
     "4096"        # 4KB
-    "8192"        # 8KB
-    "16384"       # 16KB
-    "32768"       # 32KB
     "65536"       # 64KB
     "131072"      # 128KB
     "262144"      # 256KB
@@ -17,28 +14,20 @@ io_sizes=(
     "4194304"     # 4MB
     "8388608"     # 8MB
     "16777216"    # 16MB
+    "25165824"    # 24MB
     "33554432"    # 32MB
+    "50331648"    # 48MB
     "67108864"    # 64MB
+    "85983232"    # 82MB
     "104857600"   # 100MB
 )
 
 # Stride Sizes in bytes: 4KB to 100MB
 strides=(
     "4096"        # 4KB
-    "8192"        # 8KB
-    "16384"       # 16KB
-    "32768"       # 32KB
     "65536"       # 64KB
-    "131072"      # 128KB
-    "262144"      # 256KB
-    "524288"      # 512KB
     "1048576"     # 1MB
-    "2097152"     # 2MB
-    "4194304"     # 4MB
-    "8388608"     # 8MB
     "16777216"    # 16MB
-    "33554432"    # 32MB
-    "67108864"    # 64MB
     "104857600"   # 100MB
 )
 
@@ -59,11 +48,12 @@ run_benchmark() {
     # Execute the benchmark and capture its output
     result=$(./iobench -d "$device" -s "$io_size" -t "$stride" -o "$operation" -p "$pattern")
 
+    # Append each run's result separately
     echo "$device, $io_size, $stride, $operation, $pattern, $run_number, $result" >> $output_file
 }
 
 # Initialize the output file with headers
-echo "Device, IO_Size, Stride, Operation, Pattern, Time (s), Throughput (GB/s)" > $output_file
+echo "Device, IO_Size, Stride, Operation, Pattern, Iteration, Time (s), Throughput (GB/s)" > $output_file
 # Main loop for all combinations
 for device in "${devices[@]}"; do
     for operation in "${operations[@]}"; do

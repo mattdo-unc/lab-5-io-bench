@@ -44,11 +44,11 @@
 #include <sys/time.h>
 
 #define KB4 (4 * 1024)
-#define GB (1024 * 1024 * 1024)
+#define GB (32 * 1024 * 1024)
 
 void perform_io(const char *device, size_t io_size, size_t stride, int is_read, int is_random) {
-    // Open the device file with direct I/O access. Use read-only or write-only mode based on 'is_read'.
-    int fd = open(device, O_DIRECT | (is_read ? O_RDONLY : O_WRONLY));
+    // Open the device file with direct I/O access.
+    int fd = open(device, O_SYNC | O_DIRECT | O_LARGEFILE | O_RDWR);
     if (fd < 0) {
         perror("Error opening device");
         exit(EXIT_FAILURE);
@@ -122,7 +122,7 @@ void print_usage() {
     printf("  -o <operation>    I/O operation type: read or write\n");
     printf("  -p <pattern>      I/O pattern: sequential or random\n");
     printf("  -h                Display this help message\n\n");
-    printf("Example:\n  ./iobench -d /dev/sda -s 4096 -t 0 -o write -p sequential\n");
+    printf("Example:\n  ./iobench -d /dev/sda -s 4096 -t 4096 -o write -p sequential\n");
 }
 
 int main(int argc, char **argv) {
