@@ -16,17 +16,17 @@ ci_data = pd.read_csv(sys.argv[2])
 # Filter data for sequential reads and writes with a Stride of 4096
 sequential_read_mean = mean_data[(mean_data['Pattern'] == 'sequential') &
                                  (mean_data['Operation'] == 'read') & (
-                                             mean_data['Stride'] == 4096)]
+                                             mean_data['Stride'] == 0)]
 sequential_read_ci = ci_data[(ci_data['Pattern'] == 'sequential') &
                              (ci_data['Operation'] == 'read') & (
-                                         ci_data['Stride'] == 4096)]
+                                         ci_data['Stride'] == 0)]
 
 sequential_write_mean = mean_data[(mean_data['Pattern'] == 'sequential') &
                                   (mean_data['Operation'] == 'write') & (
-                                              mean_data['Stride'] == 4096)]
+                                              mean_data['Stride'] == 0)]
 sequential_write_ci = ci_data[(ci_data['Pattern'] == 'sequential') &
                               (ci_data['Operation'] == 'write') & (
-                                          ci_data['Stride'] == 4096)]
+                                          ci_data['Stride'] == 0)]
 
 # Calculate error bars
 sequential_read_lower_err = (sequential_read_mean['Throughput (GB/s)'] -

@@ -15,17 +15,17 @@ ci_data = pd.read_csv(sys.argv[2])
 # Filter data for random reads and writes with a Stride of 4096
 random_read_mean = mean_data[(mean_data['Pattern'] == 'random') &
                              (mean_data['Operation'] == 'read') & (
-                                         mean_data['Stride'] == 4096)]
+                                         mean_data['Stride'] == 0)]
 random_read_ci = ci_data[(ci_data['Pattern'] == 'random') &
                          (ci_data['Operation'] == 'read') & (
-                                     ci_data['Stride'] == 4096)]
+                                     ci_data['Stride'] == 0)]
 
 random_write_mean = mean_data[(mean_data['Pattern'] == 'random') &
                               (mean_data['Operation'] == 'write') & (
-                                          mean_data['Stride'] == 4096)]
+                                          mean_data['Stride'] == 0)]
 random_write_ci = ci_data[(ci_data['Pattern'] == 'random') &
                           (ci_data['Operation'] == 'write') & (
-                                      ci_data['Stride'] == 4096)]
+                                      ci_data['Stride'] == 0)]
 
 # Calculate error bars
 random_read_lower_err = random_read_mean['Throughput (GB/s)'] - \

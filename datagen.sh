@@ -25,6 +25,7 @@ io_sizes=(
 
 # Stride Sizes in bytes: 4KB to 100MB
 strides=(
+    "0"
     "4096"        # 4KB
     "16384"       # 16KB
     "65536"       # 64KB
