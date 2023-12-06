@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Define the range of I/O sizes, strides, and granularities
+# Run this first -- then datadisplay.sh
+# Unforunately, this script will take a long time to run.
 
 # Stride Sizes in bytes: 4KB to 100MB
 io_sizes=(
@@ -28,14 +29,15 @@ strides=(
     "16384"       # 16KB
     "65536"       # 64KB
     "1048576"     # 1MB
+    "4194304"     # 4MB
     "16777216"    # 16MB
 )
 
 operations=("read" "write")
 patterns=("sequential" "random")
-# devices=("/dev/sdb1" "/dev/sda2") # HDD and SSD
-devices=("testfile.img") # HDD and SSD
-output_file="benchmark_results.csv"
+devices=("/dev/sdb1" "/dev/sda2") # HDD and SSD
+output_file_sdb1="bench_sdb1.csv"
+output_file_sda2="bench_sda2.csv"
 
 run_benchmark() {
     local device=$1
@@ -44,24 +46,27 @@ run_benchmark() {
     local operation=$4
     local pattern=$5
     local run_number=$6
+    local output_file=$7
 
-    # Execute the benchmark and capture its output
     result=$(./iobench -d "$device" -s "$io_size" -t "$stride" -o "$operation" -p "$pattern")
 
-    # Append each run's result separately
-    echo "$device, $io_size, $stride, $operation, $pattern, $run_number, $result" >> $output_file
+    echo "$device,$io_size,$stride,$operation,$pattern,$run_number,$result" >> $output_file
 }
 
-# Initialize the output file with headers
-echo "Device, IO_Size, Stride, Operation, Pattern, Iteration, Time (s), Throughput (GB/s)" > $output_file
-# Main loop for all combinations
+# Initialize the output files with headers
+echo "Device,IO_Size,Stride,Operation,Pattern,Iteration,Time (s),Throughput (GB/s)" > $output_file_sdb1
+echo "Device,IO_Size,Stride,Operation,Pattern,Iteration,Time (s),Throughput (GB/s)" > $output_file_sda2
 for device in "${devices[@]}"; do
     for operation in "${operations[@]}"; do
         for io_size in "${io_sizes[@]}"; do
             for stride in "${strides[@]}"; do
                 for pattern in "${patterns[@]}"; do
                     for run in {1..5}; do
-                        run_benchmark "$device" "$io_size" "$stride" "$operation" "$pattern" "$run"
+                        if [ "$device" == "/dev/sdb1" ]; then
+                            run_benchmark "$device" "$io_size" "$stride" "$operation" "$pattern" "$run" "$output_file_sdb1"
+                        elif [ "$device" == "/dev/sda2" ]; then
+                            run_benchmark "$device" "$io_size" "$stride" "$operation" "$pattern" "$run" "$output_file_sda2"
+                        fi
                     done
                 done
             done

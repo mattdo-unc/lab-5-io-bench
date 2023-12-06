@@ -5,11 +5,8 @@
  * Microbenchmark Utility for Disk I/O Performance Analysis with getopt
  *
  * This utility measures and analyzes the performance of disk I/O operations
- * under various conditions and patterns. It supports testing with both HDDs and SSDs.
- *
- * It uses getopt for flexible command-line argument parsing and includes a help parameter
- * for easy usage. The utility allows specifying different I/O operation patterns and parameters,
- * enabling comprehensive evaluation of disk performance characteristics.
+ * under various conditions and patterns. Ensure that you have sufficient
+ * permissions to perform READ/WRITE operations on the specified device/file.
  *
  * Command-Line Options:
  *  -d <device>       : Specify the device file (e.g., /dev/sda).
@@ -107,7 +104,7 @@ void perform_io(const char *device, size_t io_size, size_t stride, int is_read, 
     gettimeofday(&end, NULL);
 
     double elapsed = (end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0);
-    printf("%.10f, %.10f\n", elapsed, 1 / elapsed);
+    printf("%.10f,%.10f\n", elapsed, 1 / elapsed);
 
     free(buffer);
     close(fd);

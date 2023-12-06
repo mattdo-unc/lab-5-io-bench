@@ -7,3 +7,6 @@
 !*.h
 !Makefile
 !*.sh
+!*.py
+!*.pdf
+!requirements.txt
