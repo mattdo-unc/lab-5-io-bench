@@ -11,10 +11,10 @@ pip install -r requirements.txt
 echo "Running Python programs..."
 
 # Generate means and confidence intervals for sda2, sdb1
-python3 generate_means.py bench_sda2_cleaned.csv mean_data_sda2.csv
-python3 generate_ci.py bench_sda2_cleaned.csv ci_data_sda2.csv
-python3 generate_means.py bench_sdb1_cleaned.csv mean_data_sdb1.csv
-python3 generate_ci.py bench_sdb1_cleaned.csv ci_data_sdb1.csv
+python3 generate_means.py bench_sda2.csv mean_data_sda2.csv
+python3 generate_ci.py bench_sda2.csv ci_data_sda2.csv
+python3 generate_means.py bench_sdb1.csv mean_data_sdb1.csv
+python3 generate_ci.py bench_sdb1.csv ci_data_sdb1.csv
 
 # Generate graphs for sda2 and sdb1
 python3 graph_io.py mean_data_sda2.csv ci_data_sda2.csv
